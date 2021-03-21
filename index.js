@@ -12,9 +12,25 @@ class Cypher {
     }
 
     /**
+     * Sets plain text
+     * @param {String} text 
+     */
+    SetText(text) {
+        this.text = text
+    }
+
+    /**
+     * Sets the encrypted text
+     * @param {String} text 
+     */
+    SetEncryptedText(encryptedText) {
+        this.encryptedText = encryptedText
+    }
+
+    /**
      * Encrypts a text
      */
-    encrypt () {
+    Encrypt () {
         let textLen = this.text.length
         let n = Math.ceil(textLen / 16)
         this.encryptedText = ""
@@ -23,7 +39,7 @@ class Cypher {
             let transposedMatrix = this.Transpose(spiralMatrix)
             let key = this.Hash()
             let xorMatrix = this.XOR(transposedMatrix, key)
-            let shiftedMatrix = this.shiftBitsRight(xorMatrix)
+            let shiftedMatrix = this.ShiftBitsRight(xorMatrix)
             for (let j = 0; j < 4; j++) {
                 for (let k = 0 ; k < 4; k++) {
                     this.encryptedText += " " + shiftedMatrix[j][k].toString(16)
@@ -37,15 +53,16 @@ class Cypher {
     /**
      * Decrypts an encyrpted string
      */
-    decrypt() {
+    Decrypt() {
+        console.log(this.encryptedText)
         let textArr = this.encryptedText.split(" ").map(function(encryptedChar) {
             return BigInt("0x" + encryptedChar, 16);
         });
         let text = ""
         let n = Math.ceil(textArr.length / 16)
         for (let  i = 0; i < n; i++) {
-            let matrix = this.toMatrix(textArr.slice(i*16,(i+1)*16), 4)
-            let shiftedMatrixInv = this.shiftBitsLeft(matrix)
+            let matrix = this.ToMatrix(textArr.slice(i*16,(i+1)*16), 4)
+            let shiftedMatrixInv = this.ShiftBitsLeft(matrix)
             let key = this.Hash()
             let xorMatrixInv = this.XORInverse(shiftedMatrixInv, key)
             let transposedMatrixInv = this.Transpose(xorMatrixInv)
@@ -91,7 +108,7 @@ class Cypher {
      * @param {Array of Arrays} matrix
      * @returns {Array of Arrays} matrix 
      */
-    shiftBitsRight (matrix) {
+    ShiftBitsRight (matrix) {
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 let binaryStr = matrix[i][j].toString()
@@ -107,7 +124,7 @@ class Cypher {
      * Shifts 2 bits to the right, and the first 2 adds them to the beginning
      * @param {Array of Arrays} matrix
      */
-    shiftBitsLeft (matrix) {
+    ShiftBitsLeft (matrix) {
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 let binaryStr = matrix[i][j].toString()
@@ -257,7 +274,7 @@ class Cypher {
      * @param {Array} array 
      * @param {number} size 
      */
-    toMatrix(array, size) {
+    ToMatrix(array, size) {
         let res = [];
         let index = 0;
         while(index < array.length){
@@ -267,8 +284,27 @@ class Cypher {
         return res;
     }
 }
+
+function encrypt() {
+    text = document.getElementById("plain-text").value
+    myEncrypt.SetText(text)
+    encryptedText = myEncrypt.Encrypt()
+    document.getElementById("encrypted-plain-text").value = encryptedText
+    document.getElementById("cryptogram").value = encryptedText
+}
+
+function decrypt() {
+    text = document.getElementById("cryptogram").value
+    decryptedText = myEncrypt.Decrypt()
+    document.getElementById("decrypted-cryptogram").value = decryptedText
+}
+
+myEncrypt = new Cypher()
+
+/*
 myEncrypt = new Cypher("Hola estamos aquí algo padre hoys", "contraseña")
 encryptedText = myEncrypt.encrypt()
 console.log("The encrypted text is: " + encryptedText.split(" ").join(""))
 decryptedText = myEncrypt.decrypt()
 console.log("The decrypted text is: " + decryptedText)
+*/

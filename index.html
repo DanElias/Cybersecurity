@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="/tailwind.css" rel="stylesheet">
+        <link href="/custom.css" rel="stylesheet">
+        <script src="/index.js"></script>
+    </head>
+    <body>
+        <h1 class="text-3xl text-white p-5 font-bold tracking-wide
+            bg-gradient-to-tr from-lemon-300 to-green-500">
+            CryptoSpyro
+        </h1>
+        <div class="min-h-screen min-w-screen flex items-center justify-center
+            bg-gray-900 grid-rows-1">
+            <div class="flex flex-col shadow-xl grid-cols-1 px-3 w-96">
+                <div class="py-6 px-14 bg-gradient-to-tr from-lemon-300
+                    to-green-500 rounded-tl-2xl rounded-tr-2xl text-center
+                    space-y-8">
+                    <h4 class="text-white text-center font-bold text-xl ">
+                      Encrypt your plain text
+                    </h4>
+                </div>
+                <div class="flex flex-col py-6 px-8 space-y-5 bg-white
+                    rounded-bl-2xl rounded-br-2xl">
+                    <div class="flex flex-col mb-3">
+                        <label for="plain-text" class="text-gray-500">
+                            Plain text:
+                        </label>
+                        <textarea 
+                            rows="4" id="plain-text" 
+                            class="px-3  py-2 border-2 rounded-md
+                            border-gray-200 focus:outline-none
+                            focus:border-transparent bg-white border
+                            border-green-300 focus:border-green-300
+                            focus:outline-none focus:bg-white
+                            focus:text-gray-900"
+                        >
+                        </textarea>
+                        <br>
+                        <button onclick="encrypt()"
+                            class="w-full py-3 bg-gradient-to-tr from-lemon-300
+                            to-green-500 text-white rounded-md text-sm
+                            focus:outline-none focus:ring-2 focus:bg-green-500
+                            focus:border-transparent shadow-lg">
+                            Encrypt
+                        </button>
+                        <br>
+                        <label for="encrypted-plain-text"
+                            class="text-gray-500">
+                            Your cryptogram:
+                        </label>
+                        <textarea 
+                            disabled 
+                            rows="4" id="encrypted-plain-text" 
+                            class="px-3  py-2 border-2 rounded-md
+                            border-gray-200 focus:outline-none
+                            focus:border-transparent bg-white border
+                            border-green-300 focus:border-green-300
+                            focus:outline-none focus:bg-white
+                            focus:text-gray-900"
+                        >
+                        </textarea>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        <div class="flex flex-col shadow-xl grid-cols-1 px-3 w-96">
+            <div class="py-6 px-14 bg-gradient-to-tr from-lemon-300
+                to-green-500 rounded-tl-2xl rounded-tr-2xl text-center
+                space-y-8">
+                <h4 class="text-white text-center font-bold text-xl">
+                Decrypt your cryptogram
+                </h4>
+            </div>
+            <div class="flex flex-col py-6 px-8 space-y-5 bg-white
+                rounded-bl-2xl rounded-br-2xl">
+                <div class="flex flex-col mb-3">
+                    <label for="cryptogram" class="text-gray-500">
+                        Cryptogram:
+                    </label>
+                    <textarea
+                        disabled 
+                        rows="4" id="cryptogram" 
+                        class="px-3  py-2 border-2 rounded-md
+                        border-gray-200 focus:outline-none
+                        focus:border-transparent bg-white border
+                        border-green-300 focus:border-green-300
+                        focus:outline-none focus:bg-white
+                        focus:text-gray-900"
+                    >
+                    </textarea>
+                    <br>
+                    <button onclick="decrypt()" 
+                        class="w-full py-3bg-gradient-to-tr from-lemon-300
+                        to-green-500 text-white rounded-md text-sm
+                        focus:outline-none focus:ring-2 focus:bg-green-500
+                        focus:border-transparent shadow-lg">
+                        Decrypt
+                    </button>
+                    <br>
+                    <label for="decrypted-cryptogram" class="text-gray-500">
+                        Your plain text:
+                    </label>
+                    <textarea 
+                        rows="4" id="decrypted-cryptogram" 
+                        class="px-3  py-2 border-2 rounded-md
+                        border-gray-200 focus:outline-none
+                        focus:border-transparent bg-white border
+                        border-green-300 focus:border-green-300
+                        focus:outline-none focus:bg-white
+                        focus:text-gray-900"
+                    >
+                    </textarea>
+                    <br>    
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
