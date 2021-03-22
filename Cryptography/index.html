@@ -39,6 +39,21 @@
                         >
                         </textarea>
                         <br>
+                        <label for="encrypted-plain-password" class="text-gray-500">
+                            Your password:
+                         </label>
+                         <input 
+                             rows="4" id="encrypt-password" 
+                             class="px-3  py-2 border-2 rounded-md
+                             border-gray-200 focus:outline-none
+                             focus:border-transparent bg-white border
+                             border-green-300 focus:border-green-300
+                             focus:outline-none focus:bg-white
+                             focus:text-gray-900"
+                             maxlength="20"
+                         >
+                        </input>
+                         <br>   
                         <button onclick="encrypt()"
                             class="w-full py-3 bg-gradient-to-tr from-lemon-300
                             to-green-500 text-white rounded-md text-sm
@@ -92,6 +107,21 @@
                         >
                         </textarea>
                         <br>
+                        <label for="decrypted-plain-password" class="text-gray-500">
+                            Your password:
+                         </label>
+                         <input 
+                             rows="4" id="decrypt-password" 
+                             class="px-3  py-2 border-2 rounded-md
+                             border-gray-200 focus:outline-none
+                             focus:border-transparent bg-white border
+                             border-green-300 focus:border-green-300
+                             focus:outline-none focus:bg-white
+                             focus:text-gray-900"
+                             maxlength="20"
+                         >
+                        </input>
+                         <br>  
                         <button onclick="decrypt()" 
                             class="w-full py-3 bg-gradient-to-tr from-lemon-300 
                             to-green-500 text-white rounded-md text-sm
@@ -113,7 +143,7 @@
                             focus:text-gray-900"
                         >
                         </textarea>
-                        <br>    
+                        <br> 
                     </div>
                 </div>
             </div>

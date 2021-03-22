@@ -15,8 +15,9 @@ class Cypher {
      * Sets plain text
      * @param {String} text 
      */
-    SetText(text) {
+    SetText(text, password) {
         this.text = text
+        this.password = password
     }
 
     /**
@@ -141,9 +142,21 @@ class Cypher {
      */
     Hash () {
         // TO-DO - Generate 256 bits with the password given by the user
-        let hexStr = 0x3f6ef2d06e3d45001e5bb6f4c0e34231b11b11cd6789c4d41598cee73fe65f46
-        let newInt = BigInt(hexStr)
+                //let hexStr = 0x3f6ef2d06e3d45001e5bb6f4c0e34231b11b11cd6789c4d41598cee73fe65f46
+        let hexStr = this.password;
+        var hash = 0, chr;
+
+        if (this.length === 0) return hash;
+
+        for (let i = 0; i < hexStr.length; i++) {
+          chr   = hexStr.charCodeAt(i);
+          hash  = (hash * 31 + chr);
+          hash |= 0; // Convert to 32bit integer
+        }
+
+        let newInt = BigInt(hash)
         return newInt
+
     }
 
     /**
@@ -287,7 +300,8 @@ class Cypher {
 
 function encrypt() {
     text = document.getElementById("plain-text").value
-    myEncrypt.SetText(text)
+    password = document.getElementById("encrypt-password").value
+    myEncrypt.SetText(text, password)
     encryptedText = myEncrypt.Encrypt()
     document.getElementById("encrypted-plain-text").value = encryptedText
     document.getElementById("cryptogram").value = encryptedText
@@ -295,6 +309,8 @@ function encrypt() {
 
 function decrypt() {
     text = document.getElementById("cryptogram").value
+    password = document.getElementById("decrypt-password").value
+    myEncrypt.SetText(text, password)
     decryptedText = myEncrypt.Decrypt()
     document.getElementById("decrypted-cryptogram").value = decryptedText
 }
