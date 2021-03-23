@@ -40,7 +40,7 @@ class Cypher {
             let transposedMatrix = this.Transpose(spiralMatrix)
             let key = this.Hash()
             let xorMatrix = this.XOR(transposedMatrix, key)
-            let shiftedMatrix = xorMatrix // this.ShiftBitsRight(xorMatrix)
+            let shiftedMatrix = xorMatrix
             for (let j = 0; j < 4; j++) {
                 for (let k = 0 ; k < 4; k++) {
                     this.encryptedText += " " + shiftedMatrix[j][k].toString(16)
@@ -63,7 +63,7 @@ class Cypher {
         let n = Math.ceil(textArr.length / 16)
         for (let  i = 0; i < n; i++) {
             let matrix = this.ToMatrix(textArr.slice(i*16,(i+1)*16), 4)
-            let shiftedMatrixInv = matrix // this.ShiftBitsLeft(matrix)
+            let shiftedMatrixInv = matrix
             let key = this.Hash()
             let xorMatrixInv = this.XORInverse(shiftedMatrixInv, key)
             let transposedMatrixInv = this.Transpose(xorMatrixInv)
