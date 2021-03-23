@@ -40,7 +40,7 @@ class Cypher {
             let transposedMatrix = this.Transpose(spiralMatrix)
             let key = this.Hash()
             let xorMatrix = this.XOR(transposedMatrix, key)
-            let shiftedMatrix = this.ShiftBitsRight(xorMatrix)
+            let shiftedMatrix = xorMatrix // this.ShiftBitsRight(xorMatrix)
             for (let j = 0; j < 4; j++) {
                 for (let k = 0 ; k < 4; k++) {
                     this.encryptedText += " " + shiftedMatrix[j][k].toString(16)
@@ -63,7 +63,7 @@ class Cypher {
         let n = Math.ceil(textArr.length / 16)
         for (let  i = 0; i < n; i++) {
             let matrix = this.ToMatrix(textArr.slice(i*16,(i+1)*16), 4)
-            let shiftedMatrixInv = this.ShiftBitsLeft(matrix)
+            let shiftedMatrixInv = matrix // this.ShiftBitsLeft(matrix)
             let key = this.Hash()
             let xorMatrixInv = this.XORInverse(shiftedMatrixInv, key)
             let transposedMatrixInv = this.Transpose(xorMatrixInv)
@@ -110,15 +110,16 @@ class Cypher {
      * @returns {Array of Arrays} matrix 
      */
     ShiftBitsRight (matrix) {
+        let m = matrix
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 let binaryStr = matrix[i][j].toString()
                 let tempLasts = binaryStr.slice(-2)
                 binaryStr = tempLasts + binaryStr.slice(0, binaryStr.length - 2)
-                matrix[i][j] = BigInt(binaryStr,2) 
+                matrix[i][j] = BigInt(binaryStr, 2) 
             }
         }
-        return matrix
+        return m
     }
 
     /**
@@ -126,6 +127,7 @@ class Cypher {
      * @param {Array of Arrays} matrix
      */
     ShiftBitsLeft (matrix) {
+        let m = matrix
         for (let i = 0; i < 4; i++) {
             for (let j = 0; j < 4; j++) {
                 let binaryStr = matrix[i][j].toString()
@@ -134,29 +136,24 @@ class Cypher {
                 matrix[i][j] = BigInt(binaryStr,2) 
             }
         }
-        return matrix
+        return m
     }
 
     /**
-     * Hashes the user's password
+     * Hashes the user's password and geenrates a 256 bit key
      */
     Hash () {
-        // TO-DO - Generate 256 bits with the password given by the user
-                //let hexStr = 0x3f6ef2d06e3d45001e5bb6f4c0e34231b11b11cd6789c4d41598cee73fe65f46
+        let hexStrseed = 0x3f6ef2d06e3d45001e5bb6f4c0e34231b11b11cd6789c4d41598cee73fe65f460
         let hexStr = this.password;
-        var hash = 0, chr;
-
+        var hash = 0n, chr;
         if (this.length === 0) return hash;
-
         for (let i = 0; i < hexStr.length; i++) {
-          chr   = hexStr.charCodeAt(i);
-          hash  = (hash * 31 + chr);
-          hash |= 0; // Convert to 32bit integer
+          chr  = BigInt(hexStr.charCodeAt(i));
+          hash = (hash * BigInt(256) + chr);
         }
-
-        let newInt = BigInt(hash)
+        let newInt = hash ^ BigInt(hexStrseed)
+        console.log(newInt.toString(2).length)
         return newInt
-
     }
 
     /**
@@ -297,7 +294,7 @@ class Cypher {
         return res;
     }
 }
-
+let m = []
 function encrypt() {
     text = document.getElementById("plain-text").value
     password = document.getElementById("encrypt-password").value
