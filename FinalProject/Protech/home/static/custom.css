@@ -1,0 +1,9 @@
+.bg-lemon-300 {
+    --tw-bg-opacity: 1;
+    background-color: rgba(169, 255, 34 var(--tw-bg-opacity));
+}
+
+.from-lemon-300 {
+    --tw-gradient-from: #27e647;
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(169, 255, 34, 0));
+  }
