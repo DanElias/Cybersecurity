@@ -11,12 +11,12 @@
     <body>
         <div class="bg-purple-100 min-h-screen flex flex-col">
             <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center">
-                <img src="{% static 'logo.png'%}" width="250px">
+                <img src="{% static 'logo.png'%}" width="200px">
             </div>
             <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-                <div class="bg-white px-6 py-5 rounded shadow-lg font-semibold text-black w-full rounded-lg">
-                    <h1 class="mb-6 text-3xl text-center text-gray-600">Sign up</h1>
-                    <form action="{% url 'register' %}" method="post">
+                <div class="bg-white px-6 py-8 rounded shadow-lg font-semibold text-black w-full rounded-lg">
+                    <h1 class="mb-8 text-3xl text-center text-gray-600">Sign in</h1>
+                    <form action="{% url 'login' %}" method="post">
                         {% csrf_token %}
                         <input 
                             type="text"
@@ -25,38 +25,24 @@
                             placeholder="Username" />
 
                         <input 
-                            type="text"
-                            class="block border border-grey-light w-full p-3 rounded mb-4"
-                            name="email"
-                            placeholder="Email" />
-
-                        <input 
                             type="password"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
                             placeholder="Password" />
-                        <input 
-                            type="password"
-                            class="block border border-grey-light w-full p-3 rounded mb-4"
-                            name="confirm_password"
-                            placeholder="Confirm Password" />
-
                         <button
                             type="submit"
                             class="w-full text-center py-3 rounded bg-indigo-600 text-white hover:bg-indigo-800 focus:outline-none my-1"
                         >
-                            Create Account
+                            Sign in
                         </button>
                     </form>
                     <div class="flex-1 flex flex-col text-gray-600 mt-1 text-center">
-                        Already have an account?  &nbsp;
-                        <a class="underline text-blue-600" href="{% url 'login_page' %}">
-                             Sign in
+                        Don't have an account?   &nbsp;
+                        <a class="underline text-blue-600" href="{% url 'register_page' %}">
+                             Sign up
                         </a>
                     </div>
                 </div>
-
-                
             </div>
         </div>
     </body>

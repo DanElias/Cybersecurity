@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% load static %}
+        <link href="{% static 'tailwind.css'%}" rel="stylesheet">
+        <link href="{% static 'custom.css'%}" rel="stylesheet">
+        <title> Protech </title>
+    </head>
+    <body>
+        <div class="bg-purple-100 min-h-screen flex flex-col">
+            <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center">
+                <img src="{% static 'logo.png'%}" width="300px">
+            </div>
+            <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <div class="bg-white px-6 py-8 rounded shadow-lg font-semibold text-black w-full rounded-lg">
+                    <h1 class="mb-8 text-3xl text-center text-gray-600">Profile</h1>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        {% load static %}
+        <link href="{% static 'tailwind.css'%}" rel="stylesheet">
+        <link href="{% static 'custom.css'%}" rel="stylesheet">
+        <title> Protech </title>
+    </head>
+    <body>
+        <div class="bg-purple-100 min-h-screen flex flex-col">
+            <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center">
+                <img src="{% static 'logo.png'%}" width="300px">
+            </div>
+            <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <div class="bg-white px-6 py-8 rounded shadow-lg font-semibold text-black w-full rounded-lg">
+                    <h1 class="mb-8 text-3xl text-center text-gray-600">RRR</h1>
+                </div>
+                <div class="text-gray-600 mt-6">
+                    Already have an account? 
+                    <a class="underline text-blue-600" href="{% url 'login' %}">
+                        Sign in
+                    </a>.
+                </div>
+                <div class="text-gray-600 mt-6">
+                    Don't have an account? 
+                    <a class="underline text-blue-600" href="{% url 'register' %}">
+                        Sign up
+                    </a>.
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -16,9 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from home import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('/register/', views.register, name='register'),
+    path('admin/', admin.site.urls), # GET
+    path('', views.home, name='home'), # GET
+    path('register_page', views.register_get, name='register_page'), # GET
+    path('/register/', views.register_post, name='register'), # POST
+    path('login_page', views.login_get , name='login_page'), # GET
+    path('/login/', views.login_post , name='login'), # POST
+    path('error_page', views.error_get , name='error_page'), # GET
+    path('profile_page', login_required(views.profile_get), name='profile_page'), # GET
 ]
