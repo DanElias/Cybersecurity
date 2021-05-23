@@ -5,6 +5,15 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+import json
+import base64
+import random
+import string
+from .models import *
+from django.http import JsonResponse
+from Crypto.Cipher import AES
+from Crypto import Random
+import os
 
 """
     TO-DO:
@@ -30,11 +39,41 @@ def register_get(request):
 
 # POST
 def register_post(request):
+    if request.method == "POST":
+        data = request.body
+        data = json.loads(data[0:len(data)])
+        temp = len('data:image/png;base64,')
+        user_image_b64 = data["user-image"]
+        password = data["password"]
+        
+        user_image_bytes_str = user_image_b64[temp:len(user_image_b64)]
+        img_data = base64.b64decode(user_image_bytes_str)
+        private_key = str.encode((password + password)[0:16])
+        iv = str.encode((password + password)[0:16])
+        cfb_cipher = AES.new(private_key, AES.MODE_CFB, iv)
+        
+        
+        encrypted_img = cfb_cipher.encrypt(img_data)
+
+
+        cfb_decipher = AES.new(private_key, AES.MODE_CFB, iv)
+        plain_data = cfb_decipher.decrypt(encrypted_img)
+        output_file = open("output.jpg", "wb")
+        output_file.write(plain_data)
+        output_file.close()
+        """
+        with open('rrr.png', 'wb') as f:
+            f.write(imgdata)
+        """
+    return render(request, 'index.html')
+    return;
     try:
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
+        
         confirm_password = request.POST['confirm_password']
+        
         user = User.objects.create_user(username, email, password)
         user.save()
         return HttpResponseRedirect('/login_page')
