@@ -69,6 +69,7 @@ def register_post(request):
         
         # Save the user
         user = User.objects.create_user(username, email, password)
+        user.profile.biometric_data = encrypted_img
         user.save()
         return JsonResponse({})
         #return HttpResponseRedirect('/login_page')
