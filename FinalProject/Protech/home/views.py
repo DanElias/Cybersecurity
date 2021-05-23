@@ -4,16 +4,10 @@ from django.template import loader
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 import json
 import base64
-import random
-import string
 from .models import *
-from django.http import JsonResponse
 from Crypto.Cipher import AES
-from Crypto import Random
-import os
 
 """
     TO-DO:
@@ -52,9 +46,7 @@ def register_post(request):
         iv = str.encode((password + password)[0:16])
         cfb_cipher = AES.new(private_key, AES.MODE_CFB, iv)
         
-        
         encrypted_img = cfb_cipher.encrypt(img_data)
-
 
         cfb_decipher = AES.new(private_key, AES.MODE_CFB, iv)
         plain_data = cfb_decipher.decrypt(encrypted_img)

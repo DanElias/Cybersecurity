@@ -18,10 +18,7 @@
                 <div class="bg-white px-6 py-5 rounded shadow-lg font-semibold text-black w-full rounded-lg">
                     <h1 class="mb-6 text-3xl text-center text-gray-600">Sign up</h1>
                     <form action="{% url 'register' %}" method="post">
-                        <div>{% url 'register' %}</div>
                         {% csrf_token %}
-                        <div>{% csrf_token %}</div>
-                        <input type="text" id="token">{% csrf_token %}</input>
                         <input 
                             type="text"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
@@ -55,13 +52,21 @@
                         <video id="webcam" autoplay playsinline width="640" height="480"></video>
                         <canvas id="canvas"></canvas>
                         <button
+                            id="capture"
                             type="button"
                             onclick="snap()"
                             class="w-full text-center py-1 rounded bg-indigo-500 text-white hover:bg-indigo-800 focus:outline-none my-1"
                         >
                             Take photo
                         </button>
-                        <input type="" id="user-image"  name="user-image" src="">
+                        <button
+                            id="retake"
+                            type="button"
+                            onclick="start()"
+                            class="w-full text-center py-1 rounded bg-indigo-500 text-white hover:bg-indigo-800 focus:outline-none my-1"
+                        >
+                            Retake photo
+                        </button>
                         <br>
                         <hr>
                         <br>
@@ -83,90 +88,6 @@
             </div>
         </div>
     </body>
-    <script>
-        // https://medium.com/swlh/how-to-access-webcam-and-take-picture-with-javascript-b9116a983d78
-        const webcamElement = document.getElementById('webcam');
-        const canvasElement = document.getElementById('canvas');
-        canvasElement.style.display = "none";
-        const imageInput = document.getElementById('user-image');
-        
-        const webcam = new Webcam(webcamElement, 'user', canvasElement);
-
-        webcam.start()
-        .then(result =>{
-            console.log("webcam started");
-        })
-        .catch(err => {
-            console.log(err);
-        });
-
-        let picture;
-
-        function snap() {
-            console.log("RRR")
-            alert("Picture has been taken");
-            picture = webcam.snap();
-            webcamElement.style.display = "none";
-            canvasElement.style.display = "block";
-            imageInput.src = picture;
-            console.log(typeof picture)
-            console.log(picture)
-            webcam.stop()
-        }
-
-        async function sendData(){
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const confirm_password = document.getElementById('confirm_password').value;
-            const email = document.getElementById('email').value;
-            const token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-            console.log(token);
-            arr = [];
-            arr.push(picture);
-            json = null;
-
-            data_json = {
-                    'username': username,
-                    'password': password,
-                    'user-image': picture,
-                    'confirm_password': confirm_password,
-                    'email': email,
-                }
-            
-            await fetch('http://localhost:8000/%2Fregister/', {
-                method: 'POST',
-                headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                "X-CSRFToken": getCookie("csrftoken"),
-                },
-                credentials: 'same-origin',
-                body: JSON.stringify(data_json)
-            })
-            .then((response) => response.json())
-            .then((responseJSON) => {
-                json = responseJSON;
-
-                return json;
-            }).catch(err =>{
-                json = err;
-                return json;
-            });
-        }
-
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = cookies[i].trim();
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;}
-    </script>
+    <script type="text/javascript" src="{% static 'webcam.js'%}"></script>
+    <script type="text/javascript" src="{% static 'register.js'%}"></script>
 </html>
