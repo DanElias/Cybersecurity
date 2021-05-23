@@ -1,4 +1,7 @@
-async function sendData(){
+/**
+ * Sends data to backend to register
+ */
+async function sendDataRegister(){
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const confirm_password = document.getElementById('confirm_password').value;
@@ -9,7 +12,7 @@ async function sendData(){
             'email': email,
             'password': password,
             'confirm_password': confirm_password,
-            'user-image': picture,
+            'user_image': picture,
     }
     
     await fetch('http://localhost:8000/%2Fregister/', {
@@ -24,12 +27,17 @@ async function sendData(){
     })
     .then((response) => response.json())
     .then((responseJSON) => {
-        return responseJSON;
+        document.location.replace("/login_page");
     }).catch(err =>{
-        return err;
+        document.location.replace("/error_page");
     });
 }
 
+/**
+ * 
+ * @param {string} name cookie name
+ * @returns the csrf token or cookie value
+ */
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {

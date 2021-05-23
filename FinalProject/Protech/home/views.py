@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.http import JsonResponse
 from django.contrib.auth import authenticate, login
 import json
 import base64
@@ -33,44 +34,47 @@ def register_get(request):
 
 # POST
 def register_post(request):
-    if request.method == "POST":
+    try:
+        # Get data from the request's body as json
         data = request.body
         data = json.loads(data[0:len(data)])
-        temp = len('data:image/png;base64,')
-        user_image_b64 = data["user-image"]
+        # obtain data fields
+        username = data["username"]
+        email = data["email"]
         password = data["password"]
-        
+        confirm_password = data["confirm_password"]
+        user_image_b64 = data["user_image"]
+        # this is a string that comes at the beginning of the base64 image string
+        temp = len('data:image/png;base64,')
+        # we get only the base64 bytes without the temp string
         user_image_bytes_str = user_image_b64[temp:len(user_image_b64)]
+        # decode the base64 string
         img_data = base64.b64decode(user_image_bytes_str)
+        # set a private key that originates from the user's password (16 bytes)
         private_key = str.encode((password + password)[0:16])
         iv = str.encode((password + password)[0:16])
+        # Create AES encryptor object
         cfb_cipher = AES.new(private_key, AES.MODE_CFB, iv)
-        
+        # Encrypt the image
         encrypted_img = cfb_cipher.encrypt(img_data)
+        
 
+        # Create AES decryptor object
         cfb_decipher = AES.new(private_key, AES.MODE_CFB, iv)
+        # Decrypt the image
         plain_data = cfb_decipher.decrypt(encrypted_img)
-        output_file = open("output.jpg", "wb")
-        output_file.write(plain_data)
-        output_file.close()
-        """
-        with open('rrr.png', 'wb') as f:
-            f.write(imgdata)
-        """
-    return render(request, 'index.html')
-    return;
-    try:
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
+        # save decrypted image
+        with open("output.jpg", "wb") as img:
+            img.write(plain_data)
         
-        confirm_password = request.POST['confirm_password']
-        
+        # Save the user
         user = User.objects.create_user(username, email, password)
         user.save()
-        return HttpResponseRedirect('/login_page')
+        return JsonResponse({})
+        #return HttpResponseRedirect('/login_page')
     except:
-        return HttpResponseRedirect('/error_page')
+        return JsonResponse({})
+        #return HttpResponseRedirect('/error_page')
 
 # GET
 def login_get(request):

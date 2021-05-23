@@ -6,6 +6,9 @@ let canvasElement;
 let snapButtonElement;
 let startButtonElement;
 
+/**
+ * Initializes webcam and html elements needed
+ */
 function initialize() {
     webcamElement = document.getElementById('webcam');
     canvasElement = document.getElementById('canvas');
@@ -14,6 +17,9 @@ function initialize() {
     startButtonElement = document.getElementById('retake');
 }
 
+/**
+ * starts or restarts the camera and needed html elements display
+ */
 function start() {
     canvasElement.style.display = "none";
     webcamElement.style.display = "block";
@@ -30,6 +36,9 @@ function start() {
     });
 }
 
+/**
+ * Takes photo with webcam
+ */
 function snap() {
     picture = webcam.snap();
     webcamElement.style.display = "none";
