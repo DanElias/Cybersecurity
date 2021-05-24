@@ -27,6 +27,7 @@ async function sendDataRegister(){
     })
     .then((response) => response.json())
     .then((responseJSON) => {
+        alert("The profile has been created!");
         document.location.replace("/login_page");
     }).catch(err =>{
         document.location.replace("/error_page");
@@ -59,7 +60,7 @@ async function sendDataLogin(){
     .then((response) => response.json())
     .then((responseJSON) => {
         if (responseJSON["code"] != 201){
-            document.location.replace("/error_page");
+            document.location.replace("/unauthorized_page");
         } else {
             document.location.replace("/profile_page");
         }

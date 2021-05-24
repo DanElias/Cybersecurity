@@ -5,12 +5,8 @@ import os
 import numpy as np
 from io import BytesIO
 
-
 class FaceAuth:
     def authenticate(self, user_image_db_bytes, captured_user_image_bytes):
-        # Make web cam take a picture
-        # success, captured_user_image = self.web_cam.read()
-
         # use numpy to construct an array from the bytes
         user_image_db_pil = Image.open(BytesIO(user_image_db_bytes)).convert("RGB")
         # convert to np array

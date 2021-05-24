@@ -62,11 +62,9 @@ def register_post(request):
         user = User.objects.create_user(username, email, password)
         user.profile.biometric_data = encrypted_img
         user.save()
-        return JsonResponse({})
-        #return HttpResponseRedirect('/login_page')
+        return JsonResponse({'code': 200})
     except:
-        return JsonResponse({})
-        #return HttpResponseRedirect('/error_page')
+        return JsonResponse({'code': 500})
 
 # GET
 def login_get(request):
@@ -106,18 +104,21 @@ def login_post(request):
         face_auth = facelogin.FaceAuth()
         isFaceAuthenticated = face_auth.authenticate(user_image_db, captured_user_img)
         if not isFaceAuthenticated:
-            print("Entra")
             return JsonResponse({'code': 401})
         # Authenticate
         user = authenticate(request, username=username, password=password)
         return JsonResponse({'code': 201})
     except Exception as e:
-        print(e)
-        return HttpResponseRedirect('/error_page')
+        return JsonResponse({'code': 500})
 
 # GET
 def error_get(request):
     template = loader.get_template('error.html')
+    return HttpResponse(template.render({},request))
+
+    # GET
+def unauthorized_get(request):
+    template = loader.get_template('unauthorized.html')
     return HttpResponse(template.render({},request))
 
 # GET
