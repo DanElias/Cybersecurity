@@ -14,6 +14,10 @@ async function sendDataRegister(){
     const errorsPictureElement = document.getElementById('errors_picture');
     const errorsEmailElement = document.getElementById('errors_email');
 
+    errorsPasswordElement.innerText = "";
+    errorsPictureElement.innerText = "";
+    errorsEmailElement.innerText = "";
+
     let errorsPassword = validatePassword(password, confirm_password);
 
     let errorFlag = false
@@ -37,10 +41,9 @@ async function sendDataRegister(){
         errorFlag = true 
     }
 
-    if(errorFlag) {
+    if (errorFlag) {
         return;
     }
-
 
     data_json = {
             'username': username,
@@ -87,7 +90,7 @@ function validatePassword(password, confirm_password) {
     if (common_passwords.includes(password)) {
         errors.push("*Password has been found in a database of common passwords")
     }
-    let goodContent = /^((?=.*\d)(?=.*[A-Z])(?=.*\W).{8,8})$/.test(password)
+    let goodContent = /^((?=.*\d)(?=.*[A-Z])(?=.*\W)(?=.*[0-9]))./.test(password);
     if (!goodContent) {
         errors.push("*Password must have 1 special character, 1 upper case letter and 1 number")
     }
