@@ -9,6 +9,7 @@ import json
 import base64
 from .models import *
 from Crypto.Cipher import AES
+from . import facelogin
 
 """
     TO-DO:
@@ -57,16 +58,6 @@ def register_post(request):
         cfb_cipher = AES.new(private_key, AES.MODE_CFB, iv)
         # Encrypt the image
         encrypted_img = cfb_cipher.encrypt(img_data)
-        
-
-        # Create AES decryptor object
-        cfb_decipher = AES.new(private_key, AES.MODE_CFB, iv)
-        # Decrypt the image
-        plain_data = cfb_decipher.decrypt(encrypted_img)
-        # save decrypted image
-        with open("output.jpg", "wb") as img:
-            img.write(plain_data)
-        
         # Save the user
         user = User.objects.create_user(username, email, password)
         user.profile.biometric_data = encrypted_img
@@ -85,15 +76,43 @@ def login_get(request):
 # POST
 def login_post(request):
     try:
-        username = request.POST['username']
-        password = request.POST['password']
+        # Get data from the request's body as json
+        data = request.body
+        data = json.loads(data[0:len(data)])
+        # obtain data fields
+        username = data["username"]
+        password = data["password"]
+        user_image_b64 = data["user_image"]
+        # this is a string that comes at the beginning of the base64 image string
+        temp = len('data:image/png;base64,')
+        # we get only the base64 bytes without the temp string
+        user_image_bytes_str = user_image_b64[temp:len(user_image_b64)]
+        # decode the base64 string
+        captured_user_img = base64.b64decode(user_image_bytes_str)
+        # set a private key that originates from the user's password (16 bytes)
+        private_key = str.encode((password + password)[0:16])
+        iv = str.encode((password + password)[0:16])
+        
+        #Get user's biometric data (photo)
+        user = User.objects.get(username=username)
+        encrypted_img = user.profile.biometric_data
+        
+        # Create AES decryptor object
+        cfb_decipher = AES.new(private_key, AES.MODE_CFB, iv)
+        # Decrypt the image
+        user_image_db = cfb_decipher.decrypt(encrypted_img)
+
+        # Face recognition authentication
+        face_auth = facelogin.FaceAuth()
+        isFaceAuthenticated = face_auth.authenticate(user_image_db, captured_user_img)
+        if not isFaceAuthenticated:
+            print("Entra")
+            return JsonResponse({'code': 401})
+        # Authenticate
         user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return HttpResponseRedirect('/profile_page')
-        else:
-            return HttpResponseRedirect('/login_page')
-    except:
+        return JsonResponse({'code': 201})
+    except Exception as e:
+        print(e)
         return HttpResponseRedirect('/error_page')
 
 # GET

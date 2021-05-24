@@ -13,7 +13,11 @@ if success:
 
     # This is the image from the database
     user_image_db = face_recognition.load_image_file(cwd + "\images\\face2.jpeg")
+    
+    
     user_image_db_encodings = face_recognition.face_encodings(user_image_db)[0]
+
+    print(len(captured_user_image))
 
     # Reduce user image size 25%
     resized_user_image = cv2.resize(captured_user_image, (0, 0), fx = 0.25, fy = 0.25)
@@ -22,6 +26,15 @@ if success:
     # With the recently captured image, get the face location and the encondings
     captured_user_image_locations = face_recognition.face_locations(resized_rgb_user_image)
     captured_user_image_encodings = face_recognition.face_encodings(resized_rgb_user_image)
+
+
+    print(user_image_db_encodings.shape)
+    print(type(user_image_db_encodings))
+    #print(captured_user_image_encodings.shape)
+    print(type(captured_user_image_encodings))
+
+    print(len(user_image_db_encodings))
+    print(len(captured_user_image_encodings))
 
     #Compare the image in out databse with the recently captured one to see if its the same person
     check = face_recognition.compare_faces(user_image_db_encodings, captured_user_image_encodings)

@@ -5,7 +5,7 @@ from django.dispatch import receiver
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    biometric_data = models.TextField()
+    biometric_data = models.BinaryField()
 
 #Defined signals so our Profile model will be automatically created/updated when
 # we create/update User instances.

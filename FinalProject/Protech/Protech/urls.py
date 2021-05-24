@@ -24,7 +24,7 @@ urlpatterns = [
     path('register_page', views.register_get, name='register_page'), # GET
     path('/register/', views.register_post, name='register'), # POST
     path('login_page', views.login_get , name='login_page'), # GET
-    path('/login/', views.login_post , name='login'), # POST
+    path('login/', views.login_post , name='login'), # POST
     path('error_page', views.error_get , name='error_page'), # GET
     path('profile_page', login_required(views.profile_get), name='profile_page'), # GET
 ]

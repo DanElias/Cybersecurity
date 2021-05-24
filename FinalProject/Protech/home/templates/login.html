@@ -6,6 +6,7 @@
         {% load static %}
         <link href="{% static 'tailwind.css'%}" rel="stylesheet">
         <link href="{% static 'custom.css'%}" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
         <title> Protech </title>
     </head>
     <body>
@@ -22,15 +23,41 @@
                             type="text"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
                             name="username"
+                            id="username"
                             placeholder="Username" />
 
                         <input 
                             type="password"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
                             name="password"
+                            id="password"
                             placeholder="Password" />
+                        
+                        <span>Take a photo to authenticate yourself: </span>
+                        <video id="webcam" autoplay playsinline width="640" height="480"></video>
+                        <canvas id="canvas"></canvas>
                         <button
-                            type="submit"
+                            id="capture"
+                            type="button"
+                            onclick="snap()"
+                            class="w-full text-center py-1 rounded bg-indigo-500 text-white hover:bg-indigo-800 focus:outline-none my-1"
+                        >
+                            Take photo
+                        </button>
+                        <button
+                            id="retake"
+                            type="button"
+                            onclick="start()"
+                            class="w-full text-center py-1 rounded bg-indigo-500 text-white hover:bg-indigo-800 focus:outline-none my-1"
+                        >
+                            Retake photo
+                        </button>
+                        <br>
+                        <hr>
+                        <br>
+                        <button
+                            type="button"
+                            onclick="sendDataLogin()"
                             class="w-full text-center py-3 rounded bg-indigo-600 text-white hover:bg-indigo-800 focus:outline-none my-1"
                         >
                             Sign in
@@ -45,5 +72,7 @@
                 </div>
             </div>
         </div>
+    <script type="text/javascript" src="{% static 'webcam.js'%}"></script>
+    <script type="text/javascript" src="{% static 'register.js'%}"></script>
     </body>
 </html>
