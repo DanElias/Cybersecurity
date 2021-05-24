@@ -10,6 +10,7 @@ import base64
 from .models import *
 from Crypto.Cipher import AES
 from . import facelogin
+import django.contrib.auth.password_validation as validators
 
 """
     TO-DO:
@@ -63,7 +64,8 @@ def register_post(request):
         user.profile.biometric_data = encrypted_img
         user.save()
         return JsonResponse({'code': 200})
-    except:
+    except Exception as e:
+        print(e)        
         return JsonResponse({'code': 500})
 
 # GET

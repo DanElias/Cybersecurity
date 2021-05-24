@@ -26,6 +26,8 @@
                             id="username"
                             placeholder="Username"
                         />
+
+                        <div id="errors_email" class="text-red-300 text-xs"></div>
                         <input 
                             type="text"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
@@ -33,6 +35,9 @@
                             id="email"
                             placeholder="Email"
                         />
+
+                        
+                        <div id="errors_password" class="text-red-300 text-xs"></div>
                         <input 
                             type="password"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
@@ -40,6 +45,7 @@
                             id="password"
                             placeholder="Password"
                         />
+
                         <input 
                             type="password"
                             class="block border border-grey-light w-full p-3 rounded mb-4"
@@ -47,8 +53,9 @@
                             id="confirm_password"
                             placeholder="Confirm Password"
                         />
-                        
-                        <span>Take a photo to authenticate yourself: </span>
+
+                        <div id="errors_picture" class="text-red-300 text-xs"></div>
+                        <span>*Take a photo to authenticate yourself: </span>
                         <video id="webcam" autoplay playsinline width="640" height="480"></video>
                         <canvas id="canvas"></canvas>
                         <button
